@@ -9,7 +9,17 @@ then
     echo "Invalid directory..."
 fi
 
+DATETIME=$(date +%s)
+SITEDIR=$DATETIME"_site"
+mkdir $SITEDIR
+
 # Recurisvely find all markdown files
+for f in $(cd $1 && find . | grep .md)
+do	
+	mkdir -p ./$f && cp $1/$f "$f"
+	cp $1/$f $SITEDIR/$f
+	echo $f
+done
 
 
 # Loop over files
