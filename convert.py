@@ -26,7 +26,7 @@ def modify_file(filepath):
     new_contents = contents.split("---")[-1]
     #new_contents = re.sub("~~~bash", "~~~python", new_contents)
     #new_contents = re.sub("~~~c", "~~~python", new_contents)
-    new_contents = re.sub("~~~shell", "~~~python", new_contents)
+    new_contents = re.sub("```shell", "```python", new_contents)
 
     new_contents = header_img + new_contents
 
@@ -45,8 +45,11 @@ def convert_file(filepath):
     print(title)
     
     new_file = filepath[:-3] + ".html"
+    open(new_file, 'a').close()
+
     with open(new_file, 'w') as f:
-        o = subprocess.call(["markdown", "-h", "-t", title, "-s", "./template.html", filepath], stdout=f)
+        o = subprocess.call(["markdown", "-h", "-t", title, "-s", "template.html", filepath], stdout=f)
+        print(filepath)
     print("Done markdown conversion to html")
     return
 
@@ -68,7 +71,7 @@ for f in result:
         os.mkdir(newdir)
         print("Created directory {}".format(newdir))
     
-    new_file = newdir + "/" + f.split("/")[-1]
+    new_file = os.path.join(newdir,f.split("/")[-1])
     shutil.copyfile(f, new_file)
     print("Created {}".format(new_file))
     
